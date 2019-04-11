@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finance.qiongcang.mapper.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.finance.qiongcang.entity.Customer" >
+    <id column="cu_id" property="cuId" jdbcType="BIGINT" />
+    <result column="cu_userName" property="cuUsername" jdbcType="VARCHAR" />
+    <result column="cu_openid" property="cuOpenid" jdbcType="VARCHAR" />
+    <result column="cu_img" property="cuImg" jdbcType="VARCHAR" />
+    <result column="cu_address" property="cuAddress" jdbcType="VARCHAR" />
+    <result column="cu_phone" property="cuPhone" jdbcType="VARCHAR" />
+    <result column="cu_identityNum" property="cuIdentitynum" jdbcType="VARCHAR" />
+    <result column="cu_identityImg" property="cuIdentityimg" jdbcType="VARCHAR" />
+    <result column="cu_wxName" property="cuWxname" jdbcType="VARCHAR" />
+    <result column="cu_wxImg" property="cuWximg" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cu_id, cu_userName, cu_openid, cu_img, cu_address, cu_phone, cu_identityNum, cu_identityImg, 
+    cu_wxName, cu_wxImg, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_customer
+    where cu_id = #{cuId,jdbcType=BIGINT}
+  </select>
+
+  <select id="findAllData" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_customer
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_customer
+    where cu_id = #{cuId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.finance.qiongcang.entity.Customer" >
+    insert into tb_customer (cu_id, cu_userName, cu_openid, 
+      cu_img, cu_address, cu_phone, 
+      cu_identityNum, cu_identityImg, cu_wxName, 
+      cu_wxImg, createTime, updateTime
+      )
+    values (#{cuId,jdbcType=BIGINT}, #{cuUsername,jdbcType=VARCHAR}, #{cuOpenid,jdbcType=VARCHAR}, 
+      #{cuImg,jdbcType=VARCHAR}, #{cuAddress,jdbcType=VARCHAR}, #{cuPhone,jdbcType=VARCHAR}, 
+      #{cuIdentitynum,jdbcType=VARCHAR}, #{cuIdentityimg,jdbcType=VARCHAR}, #{cuWxname,jdbcType=VARCHAR}, 
+      #{cuWximg,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.finance.qiongcang.entity.Customer" >
+    insert into tb_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cuId != null" >
+        cu_id,
+      </if>
+      <if test="cuUsername != null" >
+        cu_userName,
+      </if>
+      <if test="cuOpenid != null" >
+        cu_openid,
+      </if>
+      <if test="cuImg != null" >
+        cu_img,
+      </if>
+      <if test="cuAddress != null" >
+        cu_address,
+      </if>
+      <if test="cuPhone != null" >
+        cu_phone,
+      </if>
+      <if test="cuIdentitynum != null" >
+        cu_identityNum,
+      </if>
+      <if test="cuIdentityimg != null" >
+        cu_identityImg,
+      </if>
+      <if test="cuWxname != null" >
+        cu_wxName,
+      </if>
+      <if test="cuWximg != null" >
+        cu_wxImg,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cuId != null" >
+        #{cuId,jdbcType=BIGINT},
+      </if>
+      <if test="cuUsername != null" >
+        #{cuUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="cuOpenid != null" >
+        #{cuOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="cuImg != null" >
+        #{cuImg,jdbcType=VARCHAR},
+      </if>
+      <if test="cuAddress != null" >
+        #{cuAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cuPhone != null" >
+        #{cuPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cuIdentitynum != null" >
+        #{cuIdentitynum,jdbcType=VARCHAR},
+      </if>
+      <if test="cuIdentityimg != null" >
+        #{cuIdentityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="cuWxname != null" >
+        #{cuWxname,jdbcType=VARCHAR},
+      </if>
+      <if test="cuWximg != null" >
+        #{cuWximg,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.finance.qiongcang.entity.Customer" >
+    update tb_customer
+    <set >
+      <if test="cuUsername != null" >
+        cu_userName = #{cuUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="cuOpenid != null" >
+        cu_openid = #{cuOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="cuImg != null" >
+        cu_img = #{cuImg,jdbcType=VARCHAR},
+      </if>
+      <if test="cuAddress != null" >
+        cu_address = #{cuAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cuPhone != null" >
+        cu_phone = #{cuPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cuIdentitynum != null" >
+        cu_identityNum = #{cuIdentitynum,jdbcType=VARCHAR},
+      </if>
+      <if test="cuIdentityimg != null" >
+        cu_identityImg = #{cuIdentityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="cuWxname != null" >
+        cu_wxName = #{cuWxname,jdbcType=VARCHAR},
+      </if>
+      <if test="cuWximg != null" >
+        cu_wxImg = #{cuWximg,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cu_id = #{cuId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finance.qiongcang.entity.Customer" >
+    update tb_customer
+    set cu_userName = #{cuUsername,jdbcType=VARCHAR},
+      cu_openid = #{cuOpenid,jdbcType=VARCHAR},
+      cu_img = #{cuImg,jdbcType=VARCHAR},
+      cu_address = #{cuAddress,jdbcType=VARCHAR},
+      cu_phone = #{cuPhone,jdbcType=VARCHAR},
+      cu_identityNum = #{cuIdentitynum,jdbcType=VARCHAR},
+      cu_identityImg = #{cuIdentityimg,jdbcType=VARCHAR},
+      cu_wxName = #{cuWxname,jdbcType=VARCHAR},
+      cu_wxImg = #{cuWximg,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=VARCHAR}
+    where cu_id = #{cuId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        穹苍财务管理系统后台
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+</head>
+
+<body>
+<div id="app">
+    <div class="x-body">
+        <form class="layui-form">
+            <input type="hidden" id="cId" name="cId"/>
+            <div class="layui-form-item">
+                <label for="cName" class="layui-form-label">
+                    企业名
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="cName" name="cName" required lay-verify="cName"
+                           autocomplete="off" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>法人</label>
+                <div class='layui-input-block' id="farenSelect">
+
+                </div>
+
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label for="cPhone" class="layui-form-label">
+                    联系方式
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="cPhone" name="cPhone" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label for="cCountmoney" class="layui-form-label">
+                    代理费用
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="cCountmoney" name="cCountmoney" autocomplete="off" lay-verify="cCountmoney"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label for="cExpiretime" class="layui-form-label">
+                    到期时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="cExpiretime" name="cExpiretime" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="cAddress" class="layui-form-label">
+                    地址
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="cAddress" name="cAddress" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="cExpiretime" class="layui-form-label">
+                </label>
+                <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                    保存
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="./lib/layui/layui.js" charset="utf-8">
+</script>
+<script src="./js/x-layui.js" charset="utf-8"></script>
+<script src="./js/jquery.min.js" charset="utf-8"></script>
+<script src="./js/vue.js" charset="utf-8"></script>
+<script>
+    var url = 'http://localhost:8080/finance/';
+    var id = GetUrlParam("cid");
+    layui.use(['form', 'layer', 'element', 'laydate'], function () {
+        $ = layui.jquery;
+        var form = layui.form();
+        layer = layui.layer;
+        laydate = layui.laydate;//日期插件;
+        $.ajax({
+            url: url + 'company/findDataById?cid=' + id,
+            type: 'get',
+            dataType: 'json',
+            success: function (res) {
+                var data = res.data.company;
+                $("#cName").val(data.cName);
+                $("#cId").val(data.cId);
+                $("#cAddress").val(data.cAddress);
+                $("#cPhone").val(data.cPhone);
+                $("#cCountmoney").val(data.cCountmoney);
+                $("#cExpiretime").val(data.cExpiretime);
+                var customer = res.data.customer;
+                var str = "";
+                for (var i in customer) {
+                    if (i == 0) {
+                        str = "<select name='cuId' lay-verify='cuId'>";
+                    }
+                    if (customer[i].cuId == data.cuId) {
+                        str = str + "<option  value='" + customer[i].cuId + "' selected='selected'>" + customer[i].cuUsername + "</option><br/>"
+                    } else {
+                        str = str + "<option  value='" + customer[i].cuId + "'>" + customer[i].cuUsername + "</option><br/>"
+                    }
+                }
+                str = str + "</select>";
+                $("#farenSelect").append(str);
+                form.render();
+            },
+            error: function (er) {
+                console.log(er);
+            }
+        });
+        //监听提交
+        form.on('submit(save)', function (data) {
+            var data = data.field;
+            url = url + "company/update";
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: {
+                    cId: data.cId,
+                    cuId: data.cuId,
+                    cName: data.cName,
+                    cAddress: data.cAddress,
+                    cPhone: data.cPhone,
+                    cExpiretime: data.cExpiretime,
+                    cCountmoney: data.cCountmoney
+                },
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+
+                    layer.alert("修改成功", {icon: 6}, function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
+                }
+            });
+            return false;
+        });
+        var dataObj = {
+            min: '1900-01'
+            , max: '2099-06'
+            , format: 'YYYY-MM'
+            , istoday: false
+            , choose: function (datas) {
+                dataObj.min = datas; //开始日选好后，重置结束日的最小日期
+                dataObj.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        document.getElementById('cExpiretime').onclick = function () {
+            dataObj.elem = this;
+            laydate(dataObj);
+        };
+        form.verify({
+            cCountmoney: function (value, item) { //value：表单的值、item：表单的DOM对象
+                if (!new RegExp("^[0-9]+(.[0-9]{1,3})?$").test(value)) {
+                    return '请输入数字！';
+                }
+            }
+        });
+    });
+
+    function GetUrlParam(paraName) {
+        var url = document.location.toString();
+        var arrObj = url.split("?");
+
+        if (arrObj.length > 1) {
+            var arrPara = arrObj[1].split("&");
+            var arr;
+
+            for (var i = 0; i < arrPara.length; i++) {
+                arr = arrPara[i].split("=");
+
+                if (arr != null && arr[0] == paraName) {
+                    return arr[1];
+                }
+            }
+            return "";
+        }
+        else {
+            return "";
+        }
+    };
+</script>
+
+</body>
+
+</html>

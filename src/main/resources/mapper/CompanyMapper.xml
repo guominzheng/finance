@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finance.qiongcang.mapper.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.finance.qiongcang.entity.Company" >
+    <id column="c_id" property="cId" jdbcType="BIGINT" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_address" property="cAddress" jdbcType="VARCHAR" />
+    <result column="c_phone" property="cPhone" jdbcType="VARCHAR" />
+    <result column="c_charterZ" property="cCharterz" jdbcType="VARCHAR" />
+    <result column="c_charterF" property="cCharterf" jdbcType="VARCHAR" />
+    <result column="c_scale" property="cScale" jdbcType="INTEGER" />
+    <result column="cu_id" property="cuId" jdbcType="VARCHAR" />
+    <result column="c_countMoney" property="cCountmoney" jdbcType="VARCHAR" />
+    <result column="c_createTime" property="cCreatetime" jdbcType="VARCHAR" />
+    <result column="c_updateTime" property="cUpdatetime" jdbcType="VARCHAR" />
+    <result column="c_expireTime" property="cExpiretime" jdbcType="VARCHAR" />
+    <association property="customer" column="cu_id"  select="com.finance.qiongcang.mapper.CustomerMapper.selectByPrimaryKey" javaType="com.finance.qiongcang.entity.Customer"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    c_id, c_name, c_address, c_phone, c_charterZ, c_charterF, c_scale, cu_id, c_countMoney, 
+    c_createTime, c_updateTime, c_expireTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_company
+    where c_id = #{cId,jdbcType=BIGINT}
+  </select>
+
+  <select id="findAllData" resultMap="BaseResultMap" parameterType="com.finance.qiongcang.entity.Company" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_company
+    <where>
+      <if test="cName !=null">AND c_name like concat(concat('%',#{cName}),'%')</if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_company
+    where c_id = #{cId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.finance.qiongcang.entity.Company" >
+    insert into tb_company (c_id, c_name, c_address, 
+      c_phone, c_charterZ, c_charterF, 
+      c_scale, cu_id, c_countMoney, 
+      c_createTime, c_updateTime, c_expireTime
+      )
+    values (#{cId,jdbcType=BIGINT}, #{cName,jdbcType=VARCHAR}, #{cAddress,jdbcType=VARCHAR}, 
+      #{cPhone,jdbcType=VARCHAR}, #{cCharterz,jdbcType=VARCHAR}, #{cCharterf,jdbcType=VARCHAR}, 
+      #{cScale,jdbcType=INTEGER}, #{cuId,jdbcType=VARCHAR}, #{cCountmoney,jdbcType=VARCHAR}, 
+      #{cCreatetime,jdbcType=VARCHAR}, #{cUpdatetime,jdbcType=VARCHAR}, #{cExpiretime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.finance.qiongcang.entity.Company" >
+    insert into tb_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="cName != null" >
+        c_name,
+      </if>
+      <if test="cAddress != null" >
+        c_address,
+      </if>
+      <if test="cPhone != null" >
+        c_phone,
+      </if>
+      <if test="cCharterz != null" >
+        c_charterZ,
+      </if>
+      <if test="cCharterf != null" >
+        c_charterF,
+      </if>
+      <if test="cScale != null" >
+        c_scale,
+      </if>
+      <if test="cuId != null" >
+        cu_id,
+      </if>
+      <if test="cCountmoney != null" >
+        c_countMoney,
+      </if>
+      <if test="cCreatetime != null" >
+        c_createTime,
+      </if>
+      <if test="cUpdatetime != null" >
+        c_updateTime,
+      </if>
+      <if test="cExpiretime != null" >
+        c_expireTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=BIGINT},
+      </if>
+      <if test="cName != null" >
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddress != null" >
+        #{cAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cPhone != null" >
+        #{cPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cCharterz != null" >
+        #{cCharterz,jdbcType=VARCHAR},
+      </if>
+      <if test="cCharterf != null" >
+        #{cCharterf,jdbcType=VARCHAR},
+      </if>
+      <if test="cScale != null" >
+        #{cScale,jdbcType=INTEGER},
+      </if>
+      <if test="cuId != null" >
+        #{cuId,jdbcType=VARCHAR},
+      </if>
+      <if test="cCountmoney != null" >
+        #{cCountmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="cUpdatetime != null" >
+        #{cUpdatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="cExpiretime != null" >
+        #{cExpiretime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.finance.qiongcang.entity.Company" >
+    update tb_company
+    <set >
+      <if test="cName != null" >
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddress != null" >
+        c_address = #{cAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cPhone != null" >
+        c_phone = #{cPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cCharterz != null" >
+        c_charterZ = #{cCharterz,jdbcType=VARCHAR},
+      </if>
+      <if test="cCharterf != null" >
+        c_charterF = #{cCharterf,jdbcType=VARCHAR},
+      </if>
+      <if test="cScale != null" >
+        c_scale = #{cScale,jdbcType=INTEGER},
+      </if>
+      <if test="cuId != null" >
+        cu_id = #{cuId,jdbcType=VARCHAR},
+      </if>
+      <if test="cCountmoney != null" >
+        c_countMoney = #{cCountmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        c_createTime = #{cCreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="cUpdatetime != null" >
+        c_updateTime = #{cUpdatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="cExpiretime != null" >
+        c_expireTime = #{cExpiretime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where c_id = #{cId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finance.qiongcang.entity.Company" >
+    update tb_company
+    set c_name = #{cName,jdbcType=VARCHAR},
+      c_address = #{cAddress,jdbcType=VARCHAR},
+      c_phone = #{cPhone,jdbcType=VARCHAR},
+      c_charterZ = #{cCharterz,jdbcType=VARCHAR},
+      c_charterF = #{cCharterf,jdbcType=VARCHAR},
+      c_scale = #{cScale,jdbcType=INTEGER},
+      cu_id = #{cuId,jdbcType=VARCHAR},
+      c_countMoney = #{cCountmoney,jdbcType=VARCHAR},
+      c_createTime = #{cCreatetime,jdbcType=VARCHAR},
+      c_updateTime = #{cUpdatetime,jdbcType=VARCHAR},
+      c_expireTime = #{cExpiretime,jdbcType=VARCHAR}
+    where c_id = #{cId,jdbcType=BIGINT}
+  </update>
+</mapper>
