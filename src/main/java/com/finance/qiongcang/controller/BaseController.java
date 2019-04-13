@@ -25,7 +25,6 @@ public class BaseController {
         return request;
     }
 
-
     public String getReturnStr(String info, Object object) {
         Map returnMap = new HashMap();
         try {

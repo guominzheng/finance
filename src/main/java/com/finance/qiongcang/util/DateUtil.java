@@ -504,5 +504,27 @@ public class DateUtil {
         return days;
     }
 
+    /**
+     *  时间 修改
+     * @param date 当前时间
+     * @param dateType 时间类型
+     * @param month  加的月份数
+     * @return
+     */
+    public static String addMonth(String date, String dateType, int month) {
+        String nowDate = null;
+        SimpleDateFormat format = new SimpleDateFormat(dateType);
+        try {
+            Date parse = format.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(parse);
+            calendar.add(Calendar.MONTH, month);
+            nowDate = format.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return nowDate;
+    }
+
 
 }
